@@ -10,11 +10,12 @@ build:
     before_script:
     - apt-get update -y && apt-get install openssh-client -y
     - apt install git -y
-    - mkdir ~/.ssh && echo "$GITHUB_SSH_PRIVATE_KEY" > ~/.ssh/github
-    
+    - 'command -v ssh-agent >/dev/null || ( apt-get update -y && apt-get install openssh-client -y )'
+    - eval $(ssh-agent -s)
+    - echo "$GITHUB_SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
+    - mkdir -p ~/.ssh
+    - chmod 700 ~/.ssh    
     script:
-    - echo $DESTINATION_GITHUB_REPOSITORY
-    - echo $GITHUB_SSH_PRIVATE_KEY
     - git push github --all
     - git push github --tags
     
