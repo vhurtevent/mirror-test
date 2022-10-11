@@ -5,18 +5,20 @@ build:
     stage: mirror-to-github
     image: "ubuntu:22.04"
     variables:
-        DESTINATION_GITHUB_REPOSITORY: git@github.com:vhurtevent/mirror-test.git 
+        DESTINATION_GITHUB_REPOSITORY: git@github.com:vhurtevent/mirror-test.git
 
     before_script:
     - apt-get update -y && apt-get install openssh-client -y
     - apt install git -y
-    - 'command -v ssh-agent >/dev/null || ( apt-get update -y && apt-get install openssh-client -y )'
     - eval $(ssh-agent -s)
     - echo "$GITHUB_SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
     - mkdir -p ~/.ssh
-    - chmod 700 ~/.ssh    
+    - chmod 700 ~/.ssh
+    - GITHUB_HOSTNAME=${DESTINATION_GITHUB_REPOSITORY%:*} ; GITHUB_HOSTNAME=${GITHUB_HOSTNAME#*@} ; ssh-keyscan $GITHUB_HOSTNAME >> ~/.ssh/known_hosts
+    - chmod 644 ~/.ssh/known_hosts
     script:
-    - git remote show
+    - git remote remove github    
+    - git remote add github $DESTINATION_GITHUB_REPOSITORY
     - git push github --all
     - git push github --tags
     
