@@ -1,0 +1,22 @@
+stages:
+- mirror-to-github
+
+mirror-from-external:
+
+stage: mirror-to-github
+
+image: ubuntu:22.04
+
+before_script:
+- apt-get update -y && apt-get install openssh-client -y
+- apt install git -y
+- echo "$GIT_SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
+
+script:
+- echo $DESTINATION_REPOSITORY
+- git remote add origin $DESTINATION_REPOSITORY
+- git push --prune --all
+- git push --prune --tags
+
+only:
+- branches
