@@ -14,7 +14,6 @@ build:
     
     script:
     - echo $DESTINATION_GITHUB_REPOSITORY
-    - git remote add github $DESTINATION_GITHUB_REPOSITORY
     - git push github --all
     - git push github --tags
     
