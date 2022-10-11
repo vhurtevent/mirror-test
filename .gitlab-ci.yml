@@ -16,7 +16,7 @@ build:
     - mkdir -p ~/.ssh
     - chmod 700 ~/.ssh    
     script:
-    - git log
+    - git remote show
     - git push github --all
     - git push github --tags
     
