@@ -5,7 +5,7 @@ build:
     stage: mirror-to-github
     image: "ubuntu:22.04"
     variables:
-        DESTINATION_GITHUB_REPOSITORY: git@github.com:vhurtevent/mirror-test.git 
+        DESTINATION_GITHUB_REPOSITORY: git@github.com:vhurtevent/mirror-test.git
 
     before_script:
     - apt-get update -y && apt-get install openssh-client -y
@@ -14,7 +14,7 @@ build:
     - echo "$GITHUB_SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
     - mkdir -p ~/.ssh
     - chmod 700 ~/.ssh
-    - ssh-keyscan ${${DESTINATION_GITHUB_REPOSITORY%:*}#*@} >> ~/.ssh/known_hosts
+    - GITHUB_HOSTNAME = ${DESTINATION_GITHUB_REPOSITORY%:*} ; GITHUB_HOSTNAME = ${GITHUB_HOSTNAME#*@} ; echo $GITHUB_HOSTNAME >> ~/.ssh/known_hosts
     - chmod 644 ~/.ssh/known_hosts
     script:
     - git remote remove github    
