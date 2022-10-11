@@ -15,8 +15,8 @@ build:
     script:
     - echo $DESTINATION_GITHUB_REPOSITORY
     - git remote add github $DESTINATION_GITHUB_REPOSITORY
-    - git push --prune --all
-    - git push --prune --tags
+    - git push github --all
+    - git push github --tags
     
     only:
     - branches
