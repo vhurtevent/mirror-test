@@ -13,7 +13,9 @@ build:
     - eval $(ssh-agent -s)
     - echo "$GITHUB_SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
     - mkdir -p ~/.ssh
-    - chmod 700 ~/.ssh    
+    - chmod 700 ~/.ssh
+    - ssh-keyscan $DESTINATION_GITHUB_REPOSITORY >> ~/.ssh/known_hosts
+    - chmod 644 ~/.ssh/known_hosts
     script:
     - git remote remove github    
     - git remote add github $DESTINATION_GITHUB_REPOSITORY
