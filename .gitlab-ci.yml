@@ -10,7 +10,7 @@ image: ubuntu:22.04
 before_script:
 - apt-get update -y && apt-get install openssh-client -y
 - apt install git -y
-- echo "$GIT_SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
+- echo "$GITHUB_SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
 
 script:
 - echo $DESTINATION_REPOSITORY
