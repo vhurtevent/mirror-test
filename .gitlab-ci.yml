@@ -20,4 +20,5 @@ build:
     - git remote remove github || 1
     - git remote add github $DESTINATION_GITHUB_REPOSITORY
     - git push github HEAD:$CI_COMMIT_REF_NAME
-    - git push github --tags
+    only:
+    - branches
